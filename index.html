@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Placing Boom 19</title>
+<style>
+body { font-family: Arial; padding: 15px; background:#f4f4f4; }
+h2 { text-align:center; }
+.box { background:white; padding:15px; border-radius:10px; }
+input { width:100%; padding:8px; margin:5px 0; }
+button { padding:10px; width:100%; background:green; color:white; border:none; }
+table { width:100%; margin-top:15px; border-collapse: collapse; }
+td,th { border:1px solid #ccc; padding:5px; font-size:14px; }
+</style>
+</head>
+
+<body>
+
+<h2>🏗️ PLACING BOOM 19 (HG33)</h2>
+
+<div class="box">
+<h3>➕ Update Maintenance</h3>
+
+<input type="date" id="mdate">
+<input type="text" id="pipe" placeholder="Pipeline Thickness Date">
+<input type="text" id="doneby" placeholder="Done By">
+
+<button onclick="addData()">Save</button>
+</div>
+
+<div class="box">
+<h3>📋 Maintenance History</h3>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Pipeline</th>
+<th>By</th>
+</tr>
+</thead>
+<tbody id="list"></tbody>
+</table>
+</div>
+
+<script>
+let data = JSON.parse(localStorage.getItem("boom19")) || [];
+
+function render(){
+let html = "";
+data.forEach(d=>{
+html += `<tr>
+<td>${d.date}</td>
+<td>${d.pipe}</td>
+<td>${d.by}</td>
+</tr>`;
+});
+document.getElementById("list").innerHTML = html;
+}
+
+function addData(){
+let obj = {
+date: document.getElementById("mdate").value,
+pipe: document.getElementById("pipe").value,
+by: document.getElementById("doneby").value
+};
+
+if(!obj.date || !obj.pipe || !obj.by){
+alert("All fields required");
+return;
+}
+
+data.unshift(obj);
+localStorage.setItem("boom19", JSON.stringify(data));
+
+render();
+document.getElementById("mdate").value="";
+document.getElementById("pipe").value="";
+document.getElementById("doneby").value="";
+}
+
+render();
+</script>
+
+</body>
+</html>
